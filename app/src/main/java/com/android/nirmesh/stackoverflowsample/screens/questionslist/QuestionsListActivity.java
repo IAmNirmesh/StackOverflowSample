@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.nirmesh.stackoverflowsample.Constants;
 import com.android.nirmesh.stackoverflowsample.R;
 import com.android.nirmesh.stackoverflowsample.networking.QuestionsListResponseSchema;
 import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
 import com.android.nirmesh.stackoverflowsample.questions.Question;
 import com.android.nirmesh.stackoverflowsample.screens.common.ServerErrorDialogFragment;
+import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuestionsListActivity extends AppCompatActivity implements Callback<QuestionsListResponseSchema> {
 
@@ -39,7 +43,22 @@ public class QuestionsListActivity extends AppCompatActivity implements Callback
         mRecyclerView = findViewById(R.id.recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        mQuestionsAdapter = new QuestionsAdapter(new OnQuestionClickListener() {
+            @Override
+            public void onQuestionClicked(Question question) {
+                QuestionDetailsActivity.start(QuestionsListActivity.this, question.getId());
+            }
+        });
 
+        mRecyclerView.setAdapter(mQuestionsAdapter);
+
+        // init retrofit
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        mStackoverflowApi = retrofit.create(StackoverflowApi.class);
     }
 
     @Override
