@@ -2,14 +2,14 @@ package com.android.nirmesh.stackoverflowsample.screens.questiondetails;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
-import com.android.nirmesh.stackoverflowsample.screens.common.ServerErrorDialogFragment;
+import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
+import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
 
 public class QuestionDetailsActivity extends AppCompatActivity
         implements QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -25,6 +25,7 @@ public class QuestionDetailsActivity extends AppCompatActivity
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    private DialogsManager mDialogsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class QuestionDetailsActivity extends AppCompatActivity
         mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase();
 
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
+
+        mDialogsManager = new DialogsManager(getSupportFragmentManager());
     }
 
     @Override
@@ -61,7 +64,6 @@ public class QuestionDetailsActivity extends AppCompatActivity
 
     @Override
     public void onFetchOfQuestionDetailsFailed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(ServerErrorDialogFragment.newInstance(), null).commitAllowingStateLoss();
+        mDialogsManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
     }
 }

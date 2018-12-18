@@ -1,4 +1,4 @@
-package com.android.nirmesh.stackoverflowsample.screens.common;
+package com.android.nirmesh.stackoverflowsample.screens.common.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

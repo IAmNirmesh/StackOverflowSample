@@ -1,13 +1,13 @@
 package com.android.nirmesh.stackoverflowsample.screens.questionslist;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.Question;
-import com.android.nirmesh.stackoverflowsample.screens.common.ServerErrorDialogFragment;
+import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
+import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
 import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionDetailsActivity;
 
 import java.util.List;
@@ -18,6 +18,7 @@ public class QuestionsListActivity extends AppCompatActivity
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
     private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     private QuestionsListViewMvc mViewMvc;
+    private DialogsManager mDialogsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class QuestionsListActivity extends AppCompatActivity
         setContentView(mViewMvc.getRootView());
 
         mFetchQuestionsListUseCase = new FetchQuestionsListUseCase();
+
+        mDialogsManager = new DialogsManager(getSupportFragmentManager());
     }
 
     @Override
@@ -52,10 +55,7 @@ public class QuestionsListActivity extends AppCompatActivity
 
     @Override
     public void onFetchOfQuestionsFailed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(ServerErrorDialogFragment.newInstance(), null)
-                .commitAllowingStateLoss();
+        mDialogsManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
     }
 
     @Override
