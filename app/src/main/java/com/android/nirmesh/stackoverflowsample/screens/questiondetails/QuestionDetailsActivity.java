@@ -36,7 +36,7 @@ public class QuestionDetailsActivity extends AppCompatActivity
 
         setContentView(mViewMvc.getRootView());
 
-        mFetchQuestionDetailsUseCase = ((MyApplication) getApplication()).getFetchQuestionDetailsUseCase();
+        mFetchQuestionDetailsUseCase = ((MyApplication) getApplication()).getCompositionRoot().getFetchQuestionDetailsUseCase();
 
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
