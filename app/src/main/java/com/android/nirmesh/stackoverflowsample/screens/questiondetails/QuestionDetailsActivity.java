@@ -7,19 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
-import com.android.nirmesh.stackoverflowsample.Constants;
-import com.android.nirmesh.stackoverflowsample.networking.SingleQuestionResponseSchema;
-import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
+import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
+import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
 import com.android.nirmesh.stackoverflowsample.screens.common.ServerErrorDialogFragment;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class QuestionDetailsActivity extends AppCompatActivity
-        implements Callback<SingleQuestionResponseSchema>, QuestionDetailsViewMvc.Listener {
+        implements QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
@@ -29,10 +22,9 @@ public class QuestionDetailsActivity extends AppCompatActivity
         context.startActivity(intent);
     }
 
-    private StackoverflowApi mStackoverflowApi;
-    private Call<SingleQuestionResponseSchema> mCall;
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
+    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +34,7 @@ public class QuestionDetailsActivity extends AppCompatActivity
 
         setContentView(mViewMvc.getRootView());
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mStackoverflowApi = retrofit.create(StackoverflowApi.class);
+        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase();
 
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
     }
@@ -56,32 +43,24 @@ public class QuestionDetailsActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         mViewMvc.registerListener(this);
-        mCall = mStackoverflowApi.questionDetails(mQuestionId);
-        mCall.enqueue(this);
+        mFetchQuestionDetailsUseCase.registerListener(this);
+        mFetchQuestionDetailsUseCase.fetchQuestionDetailsAndNotify(mQuestionId);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mViewMvc.unregisterListener(this);
-        if (mCall != null) {
-            mCall.cancel();
-        }
+        mFetchQuestionDetailsUseCase.unregisterListener(this);
     }
 
     @Override
-    public void onResponse(Call<SingleQuestionResponseSchema> call, Response<SingleQuestionResponseSchema> response) {
-        SingleQuestionResponseSchema questionResponseSchema;
-
-        if (response.isSuccessful() && (questionResponseSchema = response.body()) != null) {
-            mViewMvc.bindQuestion(questionResponseSchema.getQuestion());
-        } else {
-            onFailure(call, null);
-        }
+    public void onFetchOfQuestionDetailsSucceeded(QuestionWithBody question) {
+        mViewMvc.bindQuestion(question);
     }
 
     @Override
-    public void onFailure(Call<SingleQuestionResponseSchema> call, Throwable t) {
+    public void onFetchOfQuestionDetailsFailed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(ServerErrorDialogFragment.newInstance(), null).commitAllowingStateLoss();
     }
