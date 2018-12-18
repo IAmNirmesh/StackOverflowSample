@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.MyApplication;
-import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.Question;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
@@ -30,9 +29,7 @@ public class QuestionsListActivity extends AppCompatActivity
 
         setContentView(mViewMvc.getRootView());
 
-        StackoverflowApi stackoverflowApi = ((MyApplication) getApplication()).getStackoverflowApi();
-
-        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase(stackoverflowApi);
+        mFetchQuestionsListUseCase = ((MyApplication) getApplication()).getFetchQuestionsListUseCase();
 
         mDialogsManager = new DialogsManager(getSupportFragmentManager());
     }
