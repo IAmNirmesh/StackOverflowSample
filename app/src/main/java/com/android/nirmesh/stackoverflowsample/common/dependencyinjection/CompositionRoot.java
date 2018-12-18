@@ -6,6 +6,7 @@ import com.android.nirmesh.stackoverflowsample.Constants;
 import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
+import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManagerFactory;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -39,5 +40,9 @@ public class CompositionRoot {
 
     public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
         return new FetchQuestionDetailsUseCase(getStackoverflowApi());
+    }
+
+    public DialogsManagerFactory getDialogsManagerFactory() {
+        return new DialogsManagerFactory();
     }
 }

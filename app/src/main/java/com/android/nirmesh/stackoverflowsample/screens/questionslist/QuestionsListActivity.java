@@ -30,7 +30,7 @@ public class QuestionsListActivity extends BaseActivity
 
         mFetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
 
-        mDialogsManager = new DialogsManager(getSupportFragmentManager());
+        mDialogsManager = getCompositionRoot().getDialogsManagerFactory().newDialogManager(getSupportFragmentManager());
     }
 
     @Override
