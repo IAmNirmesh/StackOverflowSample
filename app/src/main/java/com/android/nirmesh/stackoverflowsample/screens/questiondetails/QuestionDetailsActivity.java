@@ -2,15 +2,12 @@ package com.android.nirmesh.stackoverflowsample.screens.questiondetails;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.widget.TextView;
+import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.Constants;
-import com.android.nirmesh.stackoverflowsample.R;
 import com.android.nirmesh.stackoverflowsample.networking.SingleQuestionResponseSchema;
 import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
 import com.android.nirmesh.stackoverflowsample.screens.common.ServerErrorDialogFragment;
@@ -21,7 +18,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class QuestionDetailsActivity extends AppCompatActivity implements Callback<SingleQuestionResponseSchema> {
+public class QuestionDetailsActivity extends AppCompatActivity
+        implements Callback<SingleQuestionResponseSchema>, QuestionDetailsViewMvc.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
@@ -31,17 +29,18 @@ public class QuestionDetailsActivity extends AppCompatActivity implements Callba
         context.startActivity(intent);
     }
 
-    private TextView mTxtQuestionsBody;
     private StackoverflowApi mStackoverflowApi;
     private Call<SingleQuestionResponseSchema> mCall;
     private String mQuestionId;
+    private QuestionDetailsViewMvc mViewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_question_details);
 
-        mTxtQuestionsBody = findViewById(R.id.txt_question_body);
+        mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
+
+        setContentView(mViewMvc.getRootView());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -56,6 +55,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements Callba
     @Override
     protected void onStart() {
         super.onStart();
+        mViewMvc.registerListener(this);
         mCall = mStackoverflowApi.questionDetails(mQuestionId);
         mCall.enqueue(this);
     }
@@ -63,6 +63,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements Callba
     @Override
     protected void onStop() {
         super.onStop();
+        mViewMvc.unregisterListener(this);
         if (mCall != null) {
             mCall.cancel();
         }
@@ -73,13 +74,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements Callba
         SingleQuestionResponseSchema questionResponseSchema;
 
         if (response.isSuccessful() && (questionResponseSchema = response.body()) != null) {
-            String questionBody = questionResponseSchema.getQuestion().getBody();
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mTxtQuestionsBody.setText(Html.fromHtml(questionBody, Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                mTxtQuestionsBody.setText(Html.fromHtml(questionBody));
-            }
+            mViewMvc.bindQuestion(questionResponseSchema.getQuestion());
         } else {
             onFailure(call, null);
         }
