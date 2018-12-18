@@ -2,17 +2,16 @@ package com.android.nirmesh.stackoverflowsample.screens.questiondetails;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
-import com.android.nirmesh.stackoverflowsample.MyApplication;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
+import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
 
-public class QuestionDetailsActivity extends AppCompatActivity
+public class QuestionDetailsActivity extends BaseActivity
         implements QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
@@ -36,7 +35,7 @@ public class QuestionDetailsActivity extends AppCompatActivity
 
         setContentView(mViewMvc.getRootView());
 
-        mFetchQuestionDetailsUseCase = ((MyApplication) getApplication()).getCompositionRoot().getFetchQuestionDetailsUseCase();
+        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
