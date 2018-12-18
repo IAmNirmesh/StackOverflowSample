@@ -3,7 +3,6 @@ package com.android.nirmesh.stackoverflowsample.screens.questiondetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
@@ -31,7 +30,7 @@ public class QuestionDetailsActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
+        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class, null);
 
         setContentView(mViewMvc.getRootView());
 

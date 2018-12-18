@@ -1,7 +1,6 @@
 package com.android.nirmesh.stackoverflowsample.screens.questionslist;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.Question;
@@ -24,7 +23,7 @@ public class QuestionsListActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMvc = new QuestionsListViewMvcImpl(LayoutInflater.from(this), null);
+        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMvc.class, null);
 
         setContentView(mViewMvc.getRootView());
 

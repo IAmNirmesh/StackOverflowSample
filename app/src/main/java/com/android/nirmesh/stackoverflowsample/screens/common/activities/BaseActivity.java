@@ -2,6 +2,7 @@ package com.android.nirmesh.stackoverflowsample.screens.common.activities;
 
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 
 import com.android.nirmesh.stackoverflowsample.MyApplication;
 import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.CompositionRoot;
@@ -14,7 +15,10 @@ public class BaseActivity extends AppCompatActivity {
     @UiThread
     protected PresentationCompositionRoot getCompositionRoot() {
         if (mPresentationCompositionRoot == null) {
-            mPresentationCompositionRoot = new PresentationCompositionRoot(getAppCompositionRoot(), getSupportFragmentManager());
+            mPresentationCompositionRoot = new PresentationCompositionRoot(
+                    getAppCompositionRoot(),
+                    getSupportFragmentManager(),
+                    LayoutInflater.from(this));
         }
         return mPresentationCompositionRoot;
     }
