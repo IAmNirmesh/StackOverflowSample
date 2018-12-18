@@ -2,7 +2,6 @@ package com.android.nirmesh.stackoverflowsample.questions;
 
 import android.support.annotation.Nullable;
 
-import com.android.nirmesh.stackoverflowsample.Constants;
 import com.android.nirmesh.stackoverflowsample.common.BaseObservable;
 import com.android.nirmesh.stackoverflowsample.networking.SingleQuestionResponseSchema;
 import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
@@ -10,8 +9,6 @@ import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDetailsUseCase.Listener> {
 
@@ -25,13 +22,8 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
     @Nullable
     Call<SingleQuestionResponseSchema> mCall;
 
-    public FetchQuestionDetailsUseCase() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mStackoverflowApi = retrofit.create(StackoverflowApi.class);
+    public FetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
+        mStackoverflowApi = stackoverflowApi;
     }
 
     public void fetchQuestionDetailsAndNotify(String questionId) {

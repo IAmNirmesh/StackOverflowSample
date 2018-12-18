@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import com.android.nirmesh.stackoverflowsample.MyApplication;
+import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
@@ -35,7 +37,9 @@ public class QuestionDetailsActivity extends AppCompatActivity
 
         setContentView(mViewMvc.getRootView());
 
-        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase();
+        StackoverflowApi stackoverflowApi = ((MyApplication) getApplication()).getStackoverflowApi();
+
+        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(stackoverflowApi);
 
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
