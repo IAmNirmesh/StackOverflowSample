@@ -2,6 +2,7 @@ package com.android.nirmesh.stackoverflowsample.screens.questionslist;
 
 import android.os.Bundle;
 
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.Service;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.Question;
 import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
@@ -16,10 +17,10 @@ public class QuestionsListActivity extends BaseActivity
         implements QuestionsListViewMvc.Listener, FetchQuestionsListUseCase.Listener {
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
-    public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     private QuestionsListViewMvc mViewMvc;
-    public DialogsManager mDialogsManager;
-    public ViewMvcFactory mViewMvcFactory;
+    @Service public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    @Service public DialogsManager mDialogsManager;
+    @Service public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

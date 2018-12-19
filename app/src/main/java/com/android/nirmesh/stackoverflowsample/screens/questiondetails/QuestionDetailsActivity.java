@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.Service;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.QuestionDetails;
 import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
@@ -24,9 +25,9 @@ public class QuestionDetailsActivity extends BaseActivity
 
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
-    public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    public DialogsManager mDialogsManager;
-    public ViewMvcFactory mViewMvcFactory;
+    @Service public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    @Service public DialogsManager mDialogsManager;
+    @Service public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
