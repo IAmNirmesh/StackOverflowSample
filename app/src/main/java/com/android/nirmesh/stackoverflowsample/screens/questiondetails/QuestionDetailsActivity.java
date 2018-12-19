@@ -9,6 +9,7 @@ import com.android.nirmesh.stackoverflowsample.questions.QuestionDetails;
 import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
+import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFactory;
 
 public class QuestionDetailsActivity extends BaseActivity
         implements QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -23,22 +24,20 @@ public class QuestionDetailsActivity extends BaseActivity
 
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
-    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    private DialogsManager mDialogsManager;
+    public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    public DialogsManager mDialogsManager;
+    public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getInjector().inject(this);
 
-        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class, null);
+        mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class, null);
 
         setContentView(mViewMvc.getRootView());
 
-        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
-
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
-
-        mDialogsManager = getCompositionRoot().getDialogsManager();
     }
 
     @Override

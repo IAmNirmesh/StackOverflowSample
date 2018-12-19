@@ -7,6 +7,7 @@ import com.android.nirmesh.stackoverflowsample.questions.Question;
 import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
+import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFactory;
 import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionDetailsActivity;
 
 import java.util.List;
@@ -15,21 +16,19 @@ public class QuestionsListActivity extends BaseActivity
         implements QuestionsListViewMvc.Listener, FetchQuestionsListUseCase.Listener {
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
-    private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     private QuestionsListViewMvc mViewMvc;
-    private DialogsManager mDialogsManager;
+    public DialogsManager mDialogsManager;
+    public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getInjector().inject(this);
 
-        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMvc.class, null);
+        mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
 
         setContentView(mViewMvc.getRootView());
-
-        mFetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
-
-        mDialogsManager = getCompositionRoot().getDialogsManager();
     }
 
     @Override
