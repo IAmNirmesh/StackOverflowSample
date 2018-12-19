@@ -3,23 +3,34 @@ package com.android.nirmesh.stackoverflowsample.screens.questiondetails;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.nirmesh.stackoverflowsample.R;
-import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
+import com.android.nirmesh.stackoverflowsample.questions.QuestionDetails;
+import com.android.nirmesh.stackoverflowsample.screens.common.ImageLoader;
 import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.BaseViewMvc;
 
 public class QuestionDetailsViewMvcImpl extends BaseViewMvc<QuestionDetailsViewMvc.Listener>
         implements QuestionDetailsViewMvc {
-    private final TextView mTxtQuestionBody;
 
-    public QuestionDetailsViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+    private final ImageLoader mImageLoader;
+    private final TextView mTxtQuestionBody;
+    private final TextView mTxtUserDisplayName;
+    private final ImageView mImgUserAvatar;
+
+    public QuestionDetailsViewMvcImpl(LayoutInflater inflater, ViewGroup container, ImageLoader imageLoader) {
+        mImageLoader = imageLoader;
+
         setRootView(inflater.inflate(R.layout.layout_question_details, container, false));
+
         mTxtQuestionBody = findViewById(R.id.txt_question_body);
+        mTxtUserDisplayName = findViewById(R.id.txt_user_display_name);
+        mImgUserAvatar = findViewById(R.id.img_user_avatar);
     }
 
     @Override
-    public void bindQuestion(QuestionWithBody question) {
+    public void bindQuestion(QuestionDetails question) {
         String questionBody = question.getBody();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -27,5 +38,8 @@ public class QuestionDetailsViewMvcImpl extends BaseViewMvc<QuestionDetailsViewM
         } else {
             mTxtQuestionBody.setText(Html.fromHtml(questionBody));
         }
+
+        mTxtUserDisplayName.setText(question.getUserDisplayName());
+        mImageLoader.loadImage(question.getUserAvatarUrl(), mImgUserAvatar);
     }
 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
-import com.android.nirmesh.stackoverflowsample.questions.QuestionWithBody;
+import com.android.nirmesh.stackoverflowsample.questions.QuestionDetails;
 import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
@@ -57,7 +57,7 @@ public class QuestionDetailsActivity extends BaseActivity
     }
 
     @Override
-    public void onFetchOfQuestionDetailsSucceeded(QuestionWithBody question) {
+    public void onFetchOfQuestionDetailsSucceeded(QuestionDetails question) {
         mViewMvc.bindQuestion(question);
     }
 

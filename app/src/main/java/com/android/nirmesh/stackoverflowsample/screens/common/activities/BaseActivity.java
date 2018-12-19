@@ -16,10 +16,9 @@ public class BaseActivity extends AppCompatActivity {
     protected PresentationCompositionRoot getCompositionRoot() {
         if (mPresentationCompositionRoot == null) {
             mPresentationCompositionRoot = new PresentationCompositionRoot(
-                    getAppCompositionRoot(),
-                    getSupportFragmentManager(),
-                    LayoutInflater.from(this));
+                    getAppCompositionRoot(),this);
         }
+
         return mPresentationCompositionRoot;
     }
 

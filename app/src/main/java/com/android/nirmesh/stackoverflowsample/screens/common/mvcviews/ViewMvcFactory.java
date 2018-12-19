@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.android.nirmesh.stackoverflowsample.screens.common.ImageLoader;
 import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionDetailsViewMvc;
 import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionDetailsViewMvcImpl;
 import com.android.nirmesh.stackoverflowsample.screens.questionslist.QuestionsListViewMvc;
@@ -12,9 +13,11 @@ import com.android.nirmesh.stackoverflowsample.screens.questionslist.QuestionsLi
 public class ViewMvcFactory {
 
     private final LayoutInflater mLayoutInflater;
+    private ImageLoader mImageLoader;
 
-    public ViewMvcFactory(LayoutInflater layoutInflater) {
+    public ViewMvcFactory(LayoutInflater layoutInflater, ImageLoader imageLoader) {
         mLayoutInflater = layoutInflater;
+        mImageLoader = imageLoader;
     }
 
     /**
@@ -33,7 +36,7 @@ public class ViewMvcFactory {
             viewMvc = new QuestionsListViewMvcImpl(mLayoutInflater, container);
         }
         else if (mvcViewClass == QuestionDetailsViewMvc.class) {
-            viewMvc = new QuestionDetailsViewMvcImpl(mLayoutInflater, container);
+            viewMvc = new QuestionDetailsViewMvcImpl(mLayoutInflater, container, mImageLoader);
         }
         else {
             throw new IllegalArgumentException("unsupported MVC view class " + mvcViewClass);

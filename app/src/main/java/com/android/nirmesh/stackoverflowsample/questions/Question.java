@@ -1,25 +1,21 @@
 package com.android.nirmesh.stackoverflowsample.questions;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Question {
 
-    @SerializedName("title")
+    private final String mId;
     private final String mTitle;
 
-    @SerializedName("question_id")
-    private final String mId;
-
-    public Question(String title, String id) {
-        mTitle = title;
+    public Question(String id, String title) {
         mId = id;
+        mTitle = title;
+    }
+
+    public String getId() {
+        return mId;
     }
 
     public String getTitle() {
         return mTitle;
     }
 
-    public String getId() {
-        return mId;
-    }
 }
