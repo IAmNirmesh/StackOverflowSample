@@ -10,20 +10,19 @@ import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.Presen
 
 public class BaseActivity extends AppCompatActivity {
 
-    private PresentationCompositionRoot mPresentationCompositionRoot;
+    private boolean mIsInjectorUsed;
 
     @UiThread
     protected Injector getInjector() {
+        if (mIsInjectorUsed) {
+            throw new RuntimeException("There is no need to use Injector more than once.");
+        }
+        mIsInjectorUsed = true;
         return new Injector(getCompositionRoot());
     }
 
     private PresentationCompositionRoot getCompositionRoot() {
-        if (mPresentationCompositionRoot == null) {
-            mPresentationCompositionRoot = new PresentationCompositionRoot(
-                    getAppCompositionRoot(),this);
-        }
-
-        return mPresentationCompositionRoot;
+        return new PresentationCompositionRoot(getAppCompositionRoot(), this);
     }
 
     protected CompositionRoot getAppCompositionRoot() {
