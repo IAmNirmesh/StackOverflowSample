@@ -2,19 +2,23 @@ package com.android.nirmesh.stackoverflowsample;
 
 import android.app.Application;
 
-import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.CompositionRoot;
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.ApplicationComponent;
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.ApplicationModule;
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.DaggerApplicationComponent;
 
 public class MyApplication extends Application {
 
-    private CompositionRoot mCompositionRoot;
+    private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mCompositionRoot = new CompositionRoot();
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule())
+                .build();
     }
 
-    public CompositionRoot getCompositionRoot() {
-        return mCompositionRoot;
+    public ApplicationComponent getApplicationComponent() {
+        return mApplicationComponent;
     }
 }

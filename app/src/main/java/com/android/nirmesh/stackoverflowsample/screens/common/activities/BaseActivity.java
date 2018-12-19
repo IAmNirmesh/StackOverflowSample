@@ -4,9 +4,9 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.nirmesh.stackoverflowsample.MyApplication;
-import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.CompositionRoot;
 import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.Injector;
 import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.PresentationCompositionRoot;
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.ApplicationComponent;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -22,10 +22,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private PresentationCompositionRoot getCompositionRoot() {
-        return new PresentationCompositionRoot(getAppCompositionRoot(), this);
+        return new PresentationCompositionRoot(getApplicationComponent(), this);
     }
 
-    protected CompositionRoot getAppCompositionRoot() {
-        return ((MyApplication) getApplication()).getCompositionRoot();
+    private ApplicationComponent getApplicationComponent() {
+        return ((MyApplication) getApplication()).getApplicationComponent();
     }
 }

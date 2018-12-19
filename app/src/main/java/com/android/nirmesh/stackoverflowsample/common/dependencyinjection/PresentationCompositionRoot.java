@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.ApplicationComponent;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 import com.android.nirmesh.stackoverflowsample.screens.common.ImageLoader;
@@ -13,12 +14,12 @@ import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFa
 
 public class PresentationCompositionRoot {
 
-    private final CompositionRoot mCompositionRoot;
+    private final ApplicationComponent mApplicationComponent;
     private final AppCompatActivity mActivity;
 
-    public PresentationCompositionRoot(CompositionRoot compositionRoot,
+    public PresentationCompositionRoot(ApplicationComponent applicationComponent,
                                        AppCompatActivity activity) {
-        mCompositionRoot = compositionRoot;
+        mApplicationComponent = applicationComponent;
         mActivity = activity;
     }
 
@@ -43,11 +44,11 @@ public class PresentationCompositionRoot {
     }
 
     public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
-        return mCompositionRoot.getFetchQuestionDetailsUseCase();
+        return mApplicationComponent.getFetchQuestionDetailsUseCase();
     }
 
     public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
-        return mCompositionRoot.getFetchQuestionsListUseCase();
+        return mApplicationComponent.getFetchQuestionsListUseCase();
     }
 
     public ViewMvcFactory getViewMvcFactory() {
