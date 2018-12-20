@@ -89,13 +89,11 @@ public class DialogsManager {
 
     /**
      * Show dialog and assign it a given "id". Replaces any other currently shown dialog.
-     * The shown dialog will be retained across parent activity re-creation.
      * @param dialog dialog to show
      * @param id string that uniquely identifies the dialog; can be null
      */
-    public void showRetainedDialogWithId(DialogFragment dialog, @Nullable String id) {
+    public void showDialogWithId(DialogFragment dialog, @Nullable String id) {
         dismissCurrentlyShownDialog();
-        dialog.setRetainInstance(true);
         setId(dialog, id);
         showDialog(dialog);
     }

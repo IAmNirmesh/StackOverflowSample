@@ -65,6 +65,6 @@ public class QuestionDetailsActivity extends BaseActivity
 
     @Override
     public void onFetchOfQuestionDetailsFailed() {
-        mDialogsManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
+        mDialogsManager.showDialogWithId(ServerErrorDialogFragment.newInstance(), "");
     }
 }
