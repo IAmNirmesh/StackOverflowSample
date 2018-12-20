@@ -2,7 +2,6 @@ package com.android.nirmesh.stackoverflowsample.common.dependencyinjection.appli
 
 import com.android.nirmesh.stackoverflowsample.Constants;
 import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
-import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 
 import javax.inject.Singleton;
@@ -33,10 +32,5 @@ public class ApplicationModule {
     @Provides
     FetchQuestionsListUseCase getFetchQuestionsListUseCase(StackoverflowApi stackoverflowApi) {
         return new FetchQuestionsListUseCase(stackoverflowApi);
-    }
-
-    @Provides
-    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
-        return new FetchQuestionDetailsUseCase(stackoverflowApi);
     }
 }

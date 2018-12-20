@@ -4,7 +4,6 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.nirmesh.stackoverflowsample.MyApplication;
-import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.presentation.DaggerPresentationComponent;
 import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.presentation.PresentationComponent;
 import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.presentation.PresentationModule;
 import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.ApplicationComponent;
@@ -20,10 +19,8 @@ public class BaseActivity extends AppCompatActivity {
         }
         mIsInjectorUsed = true;
 
-        return DaggerPresentationComponent.builder()
-                .presentationModule(new PresentationModule(this))
-                .applicationComponent(getApplicationComponent())
-                .build();
+        return getApplicationComponent()
+                .newPresentationComponent(new PresentationModule(this));
     }
 
     private ApplicationComponent getApplicationComponent() {

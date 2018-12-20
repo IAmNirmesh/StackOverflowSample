@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
+import com.android.nirmesh.stackoverflowsample.networking.StackoverflowApi;
+import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.screens.common.ImageLoader;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFactory;
@@ -39,6 +41,11 @@ public class PresentationModule {
     @Provides
     ImageLoader getImageLoader(Activity activity) {
         return new ImageLoader(activity);
+    }
+
+    @Provides
+    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
+        return new FetchQuestionDetailsUseCase(stackoverflowApi);
     }
 
     @Provides
