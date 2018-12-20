@@ -5,9 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
-import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.application.ApplicationComponent;
-import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
-import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
 import com.android.nirmesh.stackoverflowsample.screens.common.ImageLoader;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFactory;
@@ -19,12 +16,9 @@ import dagger.Provides;
 public class PresentationModule {
 
     private final FragmentActivity mActivity;
-    private final ApplicationComponent mApplicationComponent;
 
-    public PresentationModule(FragmentActivity fragmentActivity,
-                              ApplicationComponent applicationComponent) {
+    public PresentationModule(FragmentActivity fragmentActivity) {
         mActivity = fragmentActivity;
-        mApplicationComponent = applicationComponent;
     }
 
     @Provides
@@ -50,16 +44,6 @@ public class PresentationModule {
     @Provides
     DialogsManager getDialogsManager(FragmentManager fragmentManager) {
         return new DialogsManager(fragmentManager);
-    }
-
-    @Provides
-    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
-        return mApplicationComponent.getFetchQuestionDetailsUseCase();
-    }
-
-    @Provides
-    FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
-        return mApplicationComponent.getFetchQuestionsListUseCase();
     }
 
     @Provides
