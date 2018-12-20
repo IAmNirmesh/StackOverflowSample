@@ -10,11 +10,14 @@ import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionD
 import com.android.nirmesh.stackoverflowsample.screens.questionslist.QuestionsListViewMvc;
 import com.android.nirmesh.stackoverflowsample.screens.questionslist.QuestionsListViewMvcImpl;
 
+import javax.inject.Inject;
+
 public class ViewMvcFactory {
 
     private final LayoutInflater mLayoutInflater;
     private ImageLoader mImageLoader;
 
+    @Inject
     public ViewMvcFactory(LayoutInflater layoutInflater, ImageLoader imageLoader) {
         mLayoutInflater = layoutInflater;
         mImageLoader = imageLoader;
