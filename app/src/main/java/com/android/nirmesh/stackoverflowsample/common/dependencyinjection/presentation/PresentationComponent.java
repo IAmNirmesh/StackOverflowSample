@@ -1,20 +1,14 @@
 package com.android.nirmesh.stackoverflowsample.common.dependencyinjection.presentation;
 
-import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
-import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionsListUseCase;
-import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
-import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFactory;
+import com.android.nirmesh.stackoverflowsample.screens.questiondetails.QuestionDetailsActivity;
+import com.android.nirmesh.stackoverflowsample.screens.questionslist.QuestionsListActivity;
 
 import dagger.Component;
 
 @Component(modules = PresentationModule.class)
 public interface PresentationComponent {
 
-    public DialogsManager getDialogsManager();
+    void inject(QuestionsListActivity questionsListActivity);
 
-    public ViewMvcFactory getViewMvcFactory();
-
-    public FetchQuestionsListUseCase getFetchQuestionsListUseCase();
-
-    public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase();
+    void inject(QuestionDetailsActivity questionDetailsActivity);
 }

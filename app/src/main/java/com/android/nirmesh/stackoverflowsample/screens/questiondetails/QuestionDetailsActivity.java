@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.nirmesh.stackoverflowsample.common.dependencyinjection.Service;
 import com.android.nirmesh.stackoverflowsample.questions.FetchQuestionDetailsUseCase;
 import com.android.nirmesh.stackoverflowsample.questions.QuestionDetails;
 import com.android.nirmesh.stackoverflowsample.screens.common.activities.BaseActivity;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.DialogsManager;
 import com.android.nirmesh.stackoverflowsample.screens.common.dialogs.ServerErrorDialogFragment;
 import com.android.nirmesh.stackoverflowsample.screens.common.mvcviews.ViewMvcFactory;
+
+import javax.inject.Inject;
 
 public class QuestionDetailsActivity extends BaseActivity
         implements QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -25,14 +26,15 @@ public class QuestionDetailsActivity extends BaseActivity
 
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
-    @Service public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    @Service public DialogsManager mDialogsManager;
-    @Service public ViewMvcFactory mViewMvcFactory;
+
+    @Inject FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    @Inject DialogsManager mDialogsManager;
+    @Inject ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getInjector().inject(this);
+        getPresentationComponent().inject(this);
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class, null);
 
